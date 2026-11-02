@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
-export const authenticateToken = async (req, res, next) => {
+const authenticateToken = async (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 
@@ -21,3 +21,9 @@ export const authenticateToken = async (req, res, next) => {
         return res.status(403).json({ message: 'Invalid or expired token', error: error.message });
     }
 };
+
+const authMiddleware = (req, res, next) => {
+    return authenticateToken(req, res, next);
+};
+
+export default authMiddleware;
