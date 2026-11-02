@@ -1,19 +1,16 @@
-import express from 'express';
-import cors from 'cors';
 import dotenv from 'dotenv';    
 import { connectDB } from './config/db.js';
+import app from './app.js';
+import seededAdmin from './utils/seed.js';
 
 dotenv.config();
 
-const app = express();
 const PORT = process.env.PORT || 3000;
-
-
-app.use(cors());
-app.use(express.json());
 
 async function startServer() {
   await connectDB();
+  await seededAdmin();
+
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });

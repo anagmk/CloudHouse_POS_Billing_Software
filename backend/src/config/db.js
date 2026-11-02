@@ -10,9 +10,9 @@ export async function connectDB() {
 
   const uri = url.startsWith('mongodb')
     ? url
-    : `mongodb+srv://${encodeURIComponent
-      (process.env.MONGODB_USERNAME || '')}
-      :${encodeURIComponent(process.env.MONGODB_PASSWORD || '')}@${url}/cloudhouse?retryWrites=true&w=majority`;
+    : `mongodb+srv://${encodeURIComponent(process.env.MONGODB_USERNAME || '')}:${encodeURIComponent(
+        process.env.MONGODB_PASSWORD || '',
+      )}@${url}/cloudhouse?retryWrites=true&w=majority`;
 
   try {
     await mongoose.connect(uri);
