@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs/
+
+# Test and coverage output
+coverage/
+.nyc_output/
+
+# Build and deployment output
+dist/
+build/
+.cache/
+
+# Local tooling
+.eslintcache
+*.tsbuildinfo
+
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
