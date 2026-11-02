@@ -4,8 +4,7 @@ export async function connectDB() {
   const url = process.env.DATABASE_URL;
 
   if (!url) {
-    console.warn('DATABASE_URL is not set');
-    return;
+    throw new Error('DATABASE_URL is not set');
   }
 
   const uri = url.startsWith('mongodb')
@@ -15,7 +14,7 @@ export async function connectDB() {
       )}@${url}/cloudhouse?retryWrites=true&w=majority`;
 
   try {
-    await mongoose.connect(uri);
+    await mongoose.connect(uri, { serverSelectionTimeoutMS: 10000 });
     console.log('MongoDB connected');
   } catch (error) {
     console.error('MongoDB connection failed:', error.message);

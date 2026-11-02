@@ -1,30 +1,34 @@
 import Product from '../models/product.model.js';
 import crypto from 'crypto';
+import mongoose from 'mongoose';
 
 const generateSKU = () => {
     return `SKU-${crypto.randomBytes(4).toString('hex').toUpperCase()}`;
 };
 export const createProduct = async (req, res) => {
     try {
-        const { name, price, category, stockQuantity, gstRate } = req.body;
-        const createdBy = req.user;
-        if (!name || !price || !category || !stockQuantity || !gstRate) {
-            return res.status(400).json({ message: 'All fields are required' });
+        const { name, price, category, stockQuantity, gstRate } = req.body || {};
+        const cleanName = typeof name === 'string' ? name.trim() : '';
+        const cleanCategory = typeof category === 'string' ? category.trim() : '';
+        if (!cleanName || !cleanCategory || price === undefined || stockQuantity === undefined || gstRate === undefined) {
+            return res.status(400).json({ message: 'Name, price, category, stock quantity, and GST rate are required' });
+        }
+        if (![price, stockQuantity, gstRate].every((value) => Number.isFinite(Number(value))) || Number(price) < 0 || Number(stockQuantity) < 0 || Number(gstRate) < 0) {
+            return res.status(400).json({ message: 'Price, stock quantity, and GST rate must be valid non-negative numbers' });
         }
 
-        const existingProduct = await Product.findOne({ name });
+        const existingProduct = await Product.findOne({ name: cleanName });
         if (existingProduct) {
-            return res.status(400).json({ message: 'Product with this name already exists' });
+            return res.status(409).json({ message: 'Product with this name already exists' });
         }
         const product = new Product({
-            userId: createdBy._id,
-            name,
-            price,
-            category,
-            stockQuantity,
+            createdBy: req.user._id,
+            name: cleanName,
+            price: Number(price),
+            category: cleanCategory,
+            stockQuantity: Number(stockQuantity),
             sku: generateSKU(),
-            gstRate,
-            createdBy
+            gstRate: Number(gstRate)
         });
         await product.save();
 
@@ -89,6 +93,9 @@ export const getAllProducts = async (req, res) => {
             products
         });
     } catch (error) {
+        if (error.code === 11000) {
+            return res.status(409).json({ message: 'A product with this SKU already exists' });
+        }
         console.error('Product search error:', error);
 
         return res.status(500).json({
@@ -100,6 +107,9 @@ export const getAllProducts = async (req, res) => {
 
 export const getProductById = async (req, res) => {
     try {
+        if (!mongoose.isValidObjectId(req.params.id)) {
+            return res.status(400).json({ message: 'Invalid product ID' });
+        }
         const product = await Product.findById(req.params.id);
         if (!product) {
             return res.status(404).json({ message: 'Product not found' });
@@ -112,17 +122,37 @@ export const getProductById = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
     try {
-        const { name, price, category, stockQuantity, gstRate } = req.body;
+        if (!mongoose.isValidObjectId(req.params.id)) {
+            return res.status(400).json({ message: 'Invalid product ID' });
+        }
+        const { name, price, category, stockQuantity, gstRate } = req.body || {};
+        if (name !== undefined && (typeof name !== 'string' || !name.trim())) {
+            return res.status(400).json({ message: 'Name must not be empty' });
+        }
+        if (category !== undefined && (typeof category !== 'string' || !category.trim())) {
+            return res.status(400).json({ message: 'Category must not be empty' });
+        }
+        for (const [field, value] of Object.entries({ price, stockQuantity, gstRate })) {
+            if (value !== undefined && (!Number.isFinite(Number(value)) || Number(value) < 0)) {
+                return res.status(400).json({ message: `${field} must be a valid non-negative number` });
+            }
+        }
+        if (name !== undefined) {
+            const duplicate = await Product.exists({ name: name.trim(), _id: { $ne: req.params.id } });
+            if (duplicate) {
+                return res.status(409).json({ message: 'Product with this name already exists' });
+            }
+        }
         const product = await Product.findById(req.params.id);
         if (!product) {
             return res.status(404).json({ message: 'Product not found' });
         }
 
-        product.name = name || product.name;
-        product.price = price || product.price;
-        product.category = category || product.category;
-        product.stockQuantity = stockQuantity || product.stockQuantity;
-        product.gstRate = gstRate || product.gstRate;
+        if (name !== undefined) product.name = name.trim();
+        if (price !== undefined) product.price = Number(price);
+        if (category !== undefined) product.category = category.trim();
+        if (stockQuantity !== undefined) product.stockQuantity = Number(stockQuantity);
+        if (gstRate !== undefined) product.gstRate = Number(gstRate);
 
         await product.save();
         res.status(200).json(product);
@@ -133,6 +163,9 @@ export const updateProduct = async (req, res) => {
 
 export const deleteProduct = async (req, res) => {
     try {
+        if (!mongoose.isValidObjectId(req.params.id)) {
+            return res.status(400).json({ message: 'Invalid product ID' });
+        }
         const product = await Product.findByIdAndDelete(req.params.id);
         if (!product) {
             return res.status(404).json({ message: 'Product not found' });
