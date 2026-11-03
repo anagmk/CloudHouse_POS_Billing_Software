@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Login() {
-  const serverUrl = import.meta.env.VITE_SERVER_URL?.replace(/\/+$/, "");
+  const API_URL = import.meta.env.VITE_SERVER_URL
+    ?.replace(/\/api\/?$/i, "")
+    .replace(/\/+$/, "");
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -28,25 +31,18 @@ export default function Login() {
     setNotice(null);
 
     try {
-      if (!serverUrl) {
+      if (!API_URL) {
         throw new Error(
           "Login service is not configured. Set VITE_SERVER_URL in frontend/.env and restart Vite.",
         );
       }
 
-      const response = await fetch(`${serverUrl}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json().catch(() => ({}));
-
-      if (!response.ok) {
-        throw new Error(data.message || "Login failed");
-      }
+      const credentials = formData;
+      const response = await axios.post(
+        `${API_URL}/api/auth/login`,
+        credentials,
+      );
+      const data = response.data;
 
       if (!data.token) {
         throw new Error(
@@ -67,9 +63,11 @@ export default function Login() {
       setNotice({
         type: "error",
         message:
-          error instanceof TypeError
+          error instanceof TypeError || error.code === "ERR_NETWORK"
             ? "Could not reach the login service. Check that the backend is running and VITE_SERVER_URL is correct."
-            : error.message || "Login failed. Please try again.",
+            : error.response?.data?.message ||
+              error.message ||
+              "Login failed. Please try again.",
       });
     } finally {
       setIsSubmitting(false);

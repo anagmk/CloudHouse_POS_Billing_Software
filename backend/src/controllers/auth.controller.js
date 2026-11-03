@@ -83,3 +83,14 @@ export const login = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+export const getMe = (req, res) => {
+  return res.status(200).json({
+    user: {
+      id: req.user._id,
+      username: req.user.username,
+      email: req.user.email,
+      role: req.user.role,
+    },
+  });
+};
