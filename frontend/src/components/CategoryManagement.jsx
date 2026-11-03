@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
+import { API_BASE_URL } from "../utils/api";
 
-const api = import.meta.env.VITE_SERVER_URL?.replace(/\/+$/, "");
+const api = API_BASE_URL;
 const request = async (path, options = {}) => {
   const response = await fetch(`${api}${path}`, {
     ...options,

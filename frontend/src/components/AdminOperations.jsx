@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
+import { API_BASE_URL } from "../utils/api";
 
-const serverUrl = import.meta.env.VITE_SERVER_URL?.replace(/\/+$/, "");
+const serverUrl = API_BASE_URL;
 const money = (value) =>
   new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR" }).format(
     Number(value || 0),

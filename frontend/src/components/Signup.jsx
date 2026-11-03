@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { API_BASE_URL } from "../utils/api";
 
 export default function Signup() {
-  const serverUrl = import.meta.env.VITE_SERVER_URL?.replace(/\/+$/, "");
+  const serverUrl = API_BASE_URL;
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [notice, setNotice] = useState(null);

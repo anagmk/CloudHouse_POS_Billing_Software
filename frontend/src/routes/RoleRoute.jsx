@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import AdminDashboard from "../components/AdminDashboard";
 import StaffDashboard from "../components/StaffDashboard";
+import { API_BASE_URL } from "../utils/api";
 
 const dashboardByRole = {
   admin: "/admin",
@@ -9,7 +10,7 @@ const dashboardByRole = {
 };
 
 export default function RoleRoute({ requiredRole }) {
-  const serverUrl = import.meta.env.VITE_SERVER_URL?.replace(/\/+$/, "");
+  const serverUrl = API_BASE_URL;
   const [status, setStatus] = useState(() =>
     localStorage.getItem("token") && serverUrl ? "loading" : "unauthenticated",
   );

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { API_BASE_URL } from "../utils/api";
 
 const inputClass =
   "mt-1.5 h-9 w-full rounded border border-slate-300 bg-white px-3 text-sm text-slate-900 outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-700/10";
@@ -21,7 +22,7 @@ export default function StaffManagement() {
     role: "staff",
   });
 
-  const api = import.meta.env.VITE_SERVER_URL?.replace(/\/+$/, "");
+  const api = API_BASE_URL;
   const headers = () => ({
     Authorization: `Bearer ${localStorage.getItem("token")}`,
     "Content-Type": "application/json",

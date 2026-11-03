@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API_URL } from "../utils/api";
 
 export default function Login() {
-  const API_URL = import.meta.env.VITE_SERVER_URL
-    ?.replace(/\/api\/?$/i, "")
-    .replace(/\/+$/, "");
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);

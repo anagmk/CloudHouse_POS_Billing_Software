@@ -8,8 +8,9 @@ import {
 } from "react-router-dom";
 import SidebarIcon from "./SidebarIcon";
 import StaffPortalPages from "./StaffPortalPages";
+import { API_BASE_URL } from "../utils/api";
 
-const serverUrl = import.meta.env.VITE_SERVER_URL?.replace(/\/+$/, "");
+const serverUrl = API_BASE_URL;
 
 const mapProduct = (product) => ({
   id: product._id,

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../utils/api";
 
 const emptyForm = {
   name: "",
@@ -11,7 +12,7 @@ const emptyForm = {
 
 export default function ProductManagement() {
   const navigate = useNavigate();
-  const serverUrl = import.meta.env.VITE_SERVER_URL?.replace(/\/+$/, "");
+  const serverUrl = API_BASE_URL;
   const [products, setProducts] = useState([]);
   const [form, setForm] = useState(emptyForm);
   const [editingId, setEditingId] = useState(null);

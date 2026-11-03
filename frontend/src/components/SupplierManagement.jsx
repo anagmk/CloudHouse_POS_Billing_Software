@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../utils/api";
 
-const serverUrl = import.meta.env.VITE_SERVER_URL?.replace(/\/+$/, "");
+const serverUrl = API_BASE_URL;
 const emptySupplier = {
   name: "",
   companyName: "",

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-const api = import.meta.env.VITE_SERVER_URL?.replace(/\/+$/, "");
+import { API_BASE_URL } from "../utils/api";
+
+const api = API_BASE_URL;
 const blank = {
   storeName: "",
   address: "",

@@ -15,6 +15,7 @@ import AdminOrders from "./AdminOrders";
 import BusinessSettings from "./BusinessSettings";
 import StaffManagement from "./StaffManagement";
 import SidebarIcon from "./SidebarIcon";
+import { API_BASE_URL } from "../utils/api";
 
 const navigation = [
   ["Overview", "/admin", "dashboard"],
@@ -42,7 +43,7 @@ export default function AdminDashboard() {
     "Overview";
   useEffect(() => {
     let live = true;
-    fetch(`${import.meta.env.VITE_SERVER_URL?.replace(/\/+$/, "")}/auth/me`, {
+    fetch(`${API_BASE_URL}/auth/me`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     })
       .then((r) => r.json())
@@ -201,7 +202,7 @@ function Overview() {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     let active = true;
-    const api = import.meta.env.VITE_SERVER_URL?.replace(/\/+$/, "");
+    const api = API_BASE_URL;
     const headers = {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     };
