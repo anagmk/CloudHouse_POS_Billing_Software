@@ -30,7 +30,7 @@ export default function Login() {
     try {
       if (!serverUrl) {
         throw new Error(
-          "Login service is not configured. Set VITE_SERVER_URL in frontend/.env and restart Vite."
+          "Login service is not configured. Set VITE_SERVER_URL in frontend/.env and restart Vite.",
         );
       }
 
@@ -49,14 +49,20 @@ export default function Login() {
       }
 
       if (!data.token) {
-        throw new Error("Login succeeded but the server did not return an authentication token.");
+        throw new Error(
+          "Login succeeded but the server did not return an authentication token.",
+        );
       }
       if (!data.user || !["admin", "staff"].includes(data.user.role)) {
-        throw new Error("The server did not return a valid user role. Please contact support.");
+        throw new Error(
+          "The server did not return a valid user role. Please contact support.",
+        );
       }
 
       localStorage.setItem("token", data.token);
-      navigate(data.user.role === "admin" ? "/admin" : "/staff", { replace: true });
+      navigate(data.user.role === "admin" ? "/admin" : "/staff", {
+        replace: true,
+      });
     } catch (error) {
       setNotice({
         type: "error",
@@ -224,7 +230,6 @@ export default function Login() {
             <rect x="5" y="10" width="14" height="11" rx="2" />
             <path d="M8 10V7a4 4 0 0 1 8 0v3" />
           </svg>
-
           Your information stays secure.
         </div>
       </section>

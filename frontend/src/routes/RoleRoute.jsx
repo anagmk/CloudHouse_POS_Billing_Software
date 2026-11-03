@@ -1,24 +1,25 @@
-import { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import AdminDashboard from '../components/AdminDashboard';
-import StaffDashboard from '../components/StaffDashboard';
+import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+import AdminDashboard from "../components/AdminDashboard";
+import StaffDashboard from "../components/StaffDashboard";
 
 const dashboardByRole = {
-  admin: '/admin',
-  staff: '/staff',
+  admin: "/admin",
+  staff: "/staff",
 };
 
 export default function RoleRoute({ requiredRole }) {
-  const serverUrl = import.meta.env.VITE_SERVER_URL?.replace(/\/+$/, '');
-  const [status, setStatus] = useState('loading');
+  const serverUrl = import.meta.env.VITE_SERVER_URL?.replace(/\/+$/, "");
+  const [status, setStatus] = useState(() =>
+    localStorage.getItem("token") && serverUrl ? "loading" : "unauthenticated",
+  );
   const [role, setRole] = useState(null);
 
   useEffect(() => {
     let active = true;
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
 
     if (!token || !serverUrl) {
-      setStatus('unauthenticated');
       return () => {
         active = false;
       };
@@ -29,21 +30,21 @@ export default function RoleRoute({ requiredRole }) {
     })
       .then(async (response) => {
         const data = await response.json().catch(() => ({}));
-        if (!response.ok) throw new Error(data.message || 'Session expired');
+        if (!response.ok) throw new Error(data.message || "Session expired");
 
         const verifiedRole = data.user?.role;
         if (!dashboardByRole[verifiedRole]) {
-          throw new Error('User role is invalid');
+          throw new Error("User role is invalid");
         }
 
         if (active) {
           setRole(verifiedRole);
-          setStatus('authenticated');
+          setStatus("authenticated");
         }
       })
       .catch(() => {
-        localStorage.removeItem('token');
-        if (active) setStatus('unauthenticated');
+        localStorage.removeItem("token");
+        if (active) setStatus("unauthenticated");
       });
 
     return () => {
@@ -51,7 +52,7 @@ export default function RoleRoute({ requiredRole }) {
     };
   }, [serverUrl]);
 
-  if (status === 'loading') {
+  if (status === "loading") {
     return (
       <main className="flex min-h-screen items-center justify-center text-sm text-slate-500">
         Checking your account…
@@ -59,7 +60,7 @@ export default function RoleRoute({ requiredRole }) {
     );
   }
 
-  if (status === 'unauthenticated') {
+  if (status === "unauthenticated") {
     return <Navigate to="/login" replace />;
   }
 
@@ -68,5 +69,5 @@ export default function RoleRoute({ requiredRole }) {
     return <Navigate to={userDashboard} replace />;
   }
 
-  return role === 'admin' ? <AdminDashboard /> : <StaffDashboard />;
+  return role === "admin" ? <AdminDashboard /> : <StaffDashboard />;
 }

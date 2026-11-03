@@ -27,7 +27,9 @@ export default function Signup() {
     setNotice(null);
     try {
       if (!serverUrl) {
-        throw new Error("Signup service is not configured. Set VITE_SERVER_URL in frontend/.env and restart Vite.");
+        throw new Error(
+          "Signup service is not configured. Set VITE_SERVER_URL in frontend/.env and restart Vite.",
+        );
       }
 
       const response = await fetch(`${serverUrl}/auth/signup`, {
@@ -53,9 +55,10 @@ export default function Signup() {
     } catch (error) {
       setNotice({
         type: "error",
-        message: error instanceof TypeError
-          ? "Could not reach the signup service. Check that the backend is running and VITE_SERVER_URL is correct."
-          : error.message || "Signup failed. Please try again.",
+        message:
+          error instanceof TypeError
+            ? "Could not reach the signup service. Check that the backend is running and VITE_SERVER_URL is correct."
+            : error.message || "Signup failed. Please try again.",
       });
     } finally {
       setIsSubmitting(false);
@@ -205,8 +208,6 @@ export default function Signup() {
           <div className="h-px flex-1 bg-slate-300/70" />
         </div>
 
-        
-
         <p className="mt-3 text-sm text-center text-slate-500">
           Already have an account?{" "}
           <a
@@ -228,7 +229,6 @@ export default function Signup() {
             <rect x="5" y="10" width="14" height="11" rx="2" />
             <path d="M8 10V7a4 4 0 0 1 8 0v3" />
           </svg>
-
           Your information stays secure.
         </div>
       </section>
