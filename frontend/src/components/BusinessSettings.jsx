@@ -85,7 +85,7 @@ export default function BusinessSettings() {
     </label>
   );
   return (
-    <div className="max-w-3xl space-y-4">
+    <div className="w-full min-w-0 max-w-3xl space-y-4">
       {error && (
         <p
           role="alert"

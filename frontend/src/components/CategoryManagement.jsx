@@ -92,10 +92,10 @@ export default function CategoryManagement() {
     }
   };
   return (
-    <div className="space-y-4">
+    <div className="min-w-0 space-y-4">
       <form
         onSubmit={submit}
-        className="grid gap-3 rounded border border-slate-200 bg-white p-4 sm:grid-cols-[1fr_1.5fr_auto] sm:items-end"
+        className="grid min-w-0 gap-3 rounded border border-slate-200 bg-white p-4 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_auto] sm:items-end"
       >
         <label className="grid gap-1 text-xs font-medium text-slate-600">
           Category name
@@ -170,7 +170,7 @@ export default function CategoryManagement() {
           {notice}
         </p>
       )}
-      <div className="overflow-x-auto rounded border border-slate-200 bg-white">
+      <div className="max-w-full overflow-x-auto rounded border border-slate-200 bg-white">
         {loading ? (
           <p className="p-8 text-center text-sm text-slate-500">
             Loading categories…

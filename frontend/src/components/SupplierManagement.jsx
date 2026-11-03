@@ -203,7 +203,7 @@ export default function SupplierManagement() {
   };
 
   return (
-    <section className="space-y-4">
+    <section className="min-w-0 space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 className="text-lg font-semibold tracking-tight text-slate-900">
@@ -268,7 +268,7 @@ export default function SupplierManagement() {
       </div>
 
       <div className="overflow-hidden rounded-md border border-slate-200 bg-white">
-        <div className="overflow-x-auto">
+        <div className="max-w-full overflow-x-auto">
           <table className="w-full min-w-[930px] text-left text-xs">
             <thead className="border-b border-slate-200 bg-slate-50 text-slate-500">
               <tr>

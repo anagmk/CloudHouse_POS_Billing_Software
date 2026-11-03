@@ -118,7 +118,7 @@ export default function AdminDashboard() {
           </button>
         </div>
       </header>
-      <div className="flex min-h-0 flex-1">
+      <div className="flex min-h-0 min-w-0 flex-1">
         <aside className="hidden w-56 shrink-0 overflow-hidden border-r border-slate-200 bg-white lg:block">
           {sidebar}
         </aside>
@@ -129,8 +129,8 @@ export default function AdminDashboard() {
               if (e.target === e.currentTarget) setDrawerOpen(false);
             }}
           >
-            <aside className="h-full w-72 max-w-[85vw] overflow-hidden bg-white shadow-xl">
-              <div className="flex h-14 items-center justify-between border-b border-slate-200 px-4">
+            <aside className="h-full w-72 max-w-[85vw] overflow-y-auto bg-white shadow-xl">
+              <div className="sticky top-0 flex h-14 items-center justify-between border-b border-slate-200 bg-white px-4">
                 <span className="text-sm font-semibold">Navigation</span>
                 <button
                   aria-label="Close navigation"
@@ -144,52 +144,68 @@ export default function AdminDashboard() {
             </aside>
           </div>
         )}
-        <main className="min-w-0 flex-1 overflow-y-auto p-3 sm:p-5 lg:p-6">
-          <div className="mx-auto max-w-[1600px]">
+        <main className="min-w-0 flex-1 overflow-x-hidden overflow-y-auto p-3 sm:p-5 lg:p-6">
+          <div className="mx-auto w-full min-w-0 max-w-[1600px]">
             <div className="mb-4">
               <h1 className="text-lg font-semibold tracking-tight">{active}</h1>
               <p className="mt-0.5 text-xs text-slate-500">
                 Manage store operations and records.
               </p>
             </div>
-            <Routes>
-              <Route index element={<Overview />} />
-              <Route
-                path="inventory"
-                element={<AdminOperations page="Inventory" onLogin={signOut} />}
-              />
-              <Route path="products" element={<ProductManagement />} />
-              <Route path="categories" element={<CategoryManagement />} />
-              <Route path="suppliers" element={<SupplierManagement />} />
-              <Route path="orders" element={<AdminOrders />} />
-              <Route path="staff" element={<StaffManagement />} />
-              <Route
-                path="customers"
-                element={<AdminOperations page="Customers" onLogin={signOut} />}
-              />
-              <Route
-                path="purchases"
-                element={<AdminOperations page="Purchases" onLogin={signOut} />}
-              />
-              <Route
-                path="expenses"
-                element={<AdminOperations page="Expenses" onLogin={signOut} />}
-              />
-              <Route
-                path="ledger"
-                element={<AdminOperations page="Ledger" onLogin={signOut} />}
-              />
-              <Route
-                path="payments"
-                element={<AdminOperations page="Payments" onLogin={signOut} />}
-              />
-              <Route
-                path="reports"
-                element={<AdminOperations page="Reports" onLogin={signOut} />}
-              />
-              <Route path="settings" element={<BusinessSettings />} />
-              <Route path="*" element={<Navigate to="/admin" replace />} />
-            </Routes>
+            <div className="min-w-0">
+              <Routes>
+                <Route index element={<Overview />} />
+                <Route
+                  path="inventory"
+                  element={
+                    <AdminOperations page="Inventory" onLogin={signOut} />
+                  }
+                />
+                <Route path="products" element={<ProductManagement />} />
+                <Route path="categories" element={<CategoryManagement />} />
+                <Route path="suppliers" element={<SupplierManagement />} />
+                <Route path="orders" element={<AdminOrders />} />
+                <Route path="staff" element={<StaffManagement />} />
+                <Route
+                  path="customers"
+                  element={
+                    <AdminOperations page="Customers" onLogin={signOut} />
+                  }
+                />
+                <Route
+                  path="purchases"
+                  element={
+                    <AdminOperations page="Purchases" onLogin={signOut} />
+                  }
+                />
+                <Route
+                  path="expenses"
+                  element={
+                    <AdminOperations page="Expenses" onLogin={signOut} />
+                  }
+                />
+                <Route
+                  path="ledger"
+                  element={
+                    <AdminOperations page="Ledger" onLogin={signOut} />
+                  }
+                />
+                <Route
+                  path="payments"
+                  element={
+                    <AdminOperations page="Payments" onLogin={signOut} />
+                  }
+                />
+                <Route
+                  path="reports"
+                  element={
+                    <AdminOperations page="Reports" onLogin={signOut} />
+                  }
+                />
+                <Route path="settings" element={<BusinessSettings />} />
+                <Route path="*" element={<Navigate to="/admin" replace />} />
+              </Routes>
+            </div>
           </div>
         </main>
       </div>
@@ -263,7 +279,7 @@ function Overview() {
     ["Outstanding receivables", currency(summary?.financial?.receivables)],
   ];
   return (
-    <div className="space-y-4">
+    <div className="min-w-0 space-y-4">
       <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
         {metrics.map(([label, value]) => (
           <section

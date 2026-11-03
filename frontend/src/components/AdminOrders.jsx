@@ -42,7 +42,7 @@ export default function AdminOrders() {
     };
   }, [search]);
   return (
-    <div className="space-y-4">
+    <div className="min-w-0 space-y-4">
       <p className="text-sm text-slate-600">
         Completed and partially paid point-of-sale bills, shown as sales
         history.
@@ -61,7 +61,7 @@ export default function AdminOrders() {
         placeholder="Search bill number, customer or staff"
         className="h-9 w-full max-w-sm rounded border border-slate-300 px-3 text-sm"
       />
-      <div className="overflow-x-auto rounded border border-slate-200 bg-white">
+      <div className="max-w-full overflow-x-auto rounded border border-slate-200 bg-white">
         <table className="w-full min-w-[760px] text-left text-xs">
           <thead className="bg-slate-50 text-slate-500">
             <tr>

@@ -179,7 +179,7 @@ export default function StaffManagement() {
   };
 
   return (
-    <section className="space-y-4">
+    <section className="min-w-0 space-y-4">
       <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
         <div>
           <h2 className="text-sm font-semibold text-slate-900">Team accounts</h2>
@@ -223,7 +223,7 @@ export default function StaffManagement() {
       </div>
 
       <div className="overflow-hidden rounded border border-slate-200 bg-white">
-        <div className="overflow-x-auto">
+        <div className="max-w-full overflow-x-auto">
           <table className="w-full min-w-[760px] border-collapse text-left text-sm">
             <thead className="bg-slate-50 text-xs font-medium uppercase tracking-wide text-slate-500">
               <tr>

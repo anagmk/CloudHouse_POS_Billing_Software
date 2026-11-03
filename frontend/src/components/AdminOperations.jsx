@@ -262,7 +262,7 @@ export default function AdminOperations({ page, onLogin }) {
   );
 
   return (
-    <section className="space-y-4">
+    <section className="min-w-0 space-y-4">
       {["Customers", "Expenses", "Purchases", "Inventory"].includes(page) && (
         <form
           onSubmit={submit}
@@ -352,8 +352,8 @@ export default function AdminOperations({ page, onLogin }) {
           </div>
         </form>
       )}
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <div className="flex min-w-60 flex-1 gap-2">
+      <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+        <div className="flex min-w-0 w-full flex-1 gap-2 sm:w-auto">
           {page === "Reports" ? (
             <>
               <input
@@ -361,14 +361,14 @@ export default function AdminOperations({ page, onLogin }) {
                 type="date"
                 value={from}
                 onChange={(event) => setFrom(event.target.value)}
-                className="h-9 rounded border border-slate-300 px-2 text-sm"
+                className="h-9 min-w-0 flex-1 rounded border border-slate-300 px-2 text-sm sm:flex-none"
               />
               <input
                 aria-label="Report end date"
                 type="date"
                 value={to}
                 onChange={(event) => setTo(event.target.value)}
-                className="h-9 rounded border border-slate-300 px-2 text-sm"
+                className="h-9 min-w-0 flex-1 rounded border border-slate-300 px-2 text-sm sm:flex-none"
               />
             </>
           ) : (
@@ -380,7 +380,7 @@ export default function AdminOperations({ page, onLogin }) {
             />
           )}
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <button
             onClick={load}
             className="h-9 rounded border border-slate-300 px-3 text-sm hover:bg-slate-50"
@@ -424,7 +424,7 @@ export default function AdminOperations({ page, onLogin }) {
       ) : page === "Reports" && summary ? (
         <ReportView report={summary} />
       ) : (
-        <div className="overflow-x-auto rounded-md border border-slate-200 bg-white">
+        <div className="max-w-full overflow-x-auto rounded-md border border-slate-200 bg-white">
           <table className="w-full min-w-[760px] text-left text-xs">
             <thead className="bg-slate-50 text-slate-600">
               <tr>
@@ -589,7 +589,7 @@ function ReportView({ report }) {
     ["Low-stock SKUs", report.inventory.lowStock],
   ];
   return (
-    <div className="space-y-4">
+    <div className="min-w-0 space-y-4">
       <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
         {items.map(([label, value]) => (
           <div
