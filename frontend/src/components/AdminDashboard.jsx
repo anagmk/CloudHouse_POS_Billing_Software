@@ -6,6 +6,7 @@ import {
   Route,
   Routes,
   useLocation,
+  useNavigate,
 } from "react-router-dom";
 import ProductManagement from "./ProductManagement";
 import SupplierManagement from "./SupplierManagement";
@@ -38,6 +39,7 @@ export default function AdminDashboard() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [user, setUser] = useState(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const active =
     navigation.find(([, path]) => path === location.pathname)?.[0] ||
     "Overview";
@@ -57,7 +59,7 @@ export default function AdminDashboard() {
   }, []);
   const signOut = () => {
     localStorage.removeItem("token");
-    window.location.assign("/login");
+    navigate("/login", { replace: true });
   };
   const sidebar = (
     <nav aria-label="Admin navigation" className="space-y-0.5 p-2">

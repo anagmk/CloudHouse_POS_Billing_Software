@@ -740,7 +740,7 @@ export default function StaffDashboard() {
             type="button"
             onClick={() => {
               localStorage.removeItem("token");
-              window.location.href = "/login";
+              navigate("/login", { replace: true });
             }}
             className="rounded-md px-2.5 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-700"
           >
