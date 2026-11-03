@@ -114,8 +114,8 @@ Default development credentials:
 
 | Role | Email | Password |
 | --- | --- | --- |
-| Admin | `admin@stockpilot-seed.invalid` | `DemoAdmin!2026` |
-| Staff | `staff0001@stockpilot-seed.invalid` through `staff0005@stockpilot-seed.invalid` | `DemoStaff!2026` |
+| Admin | `admin@stockpilot` | `DemoAdmin!2026` |
+| Staff | `staff0001@stockpilot` | `DemoStaff!2026` |
 
 Change the defaults before the first seed by setting these optional variables in `backend/.env`:
 
